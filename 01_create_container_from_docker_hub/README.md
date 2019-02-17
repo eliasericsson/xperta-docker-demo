@@ -1,4 +1,4 @@
-# How to create a container from Docker Hub
+# Skapa  en container från Docker Hub
 Se till att du har docker installerat på din maskin.
 
 1. I en konsol (som BASH eller PowerShell) skriver du `docker run hello-world` och du bör få följande resultat:
