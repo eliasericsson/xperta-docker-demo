@@ -1,5 +1,5 @@
 # Skapa slimmade containers
-Som vi kan se med `docker image ls` så är en del containers onödigt stora. Speciellt när applikationen/koden som containern kör skrivits med komplierade språk som t ex. Node, GO, C, C++. Det som krävs för att applikationen ska kunna köras är koden och de bibliotek som den refererar till, resten av operativsystemet används inte och är därmed onödigt och kan skalas bort.
+Som vi kan se med `docker image ls` så är en del containers onödigt stora. Speciellt när applikationen/koden som containern kör skrivits med komplierade språk som t ex. GO, C, C++. Det som krävs för att applikationen ska kunna köras är koden och de bibliotek som den refererar till, resten av operativsystemet används inte och är därmed onödigt och kan skalas bort.
 
 ## Grundupplägg
 Vi utgår från en stor Node.JS image som bygger på Debian eller Ubuntu:
