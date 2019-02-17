@@ -21,7 +21,9 @@ CMD [ "npm", "start" ]
 ```
 Våran applikation ligger i app-katalogen, denna kopierar vi in till /usr/src/app, vi installerar sedan beroenden med `npm install` och exponerar port 8080. Slutligen kör vi kommandot `npm start` vilket är definerat i package.json-filen i app-katalogen.
 
-Bygg containern med `docker build -t <namn>/<applikationsnamn> .`. Det tar en god stund att bygga denna container för att den innehåller mer än vad vi drar nytta av.
+Bygg containern med `docker build -t <namn>/<applikationsnamn> .`
+
+Det tar en god stund att bygga denna container för att den innehåller mer än vad vi drar nytta av.
 `docker image ls elias/node` ger oss följande:
 ```bash
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
@@ -35,3 +37,15 @@ Vi startar containern med `docker run -it -p 8080:8080 elias/node` där -p talar
 Running on http://0.0.0.0:8080
 ```
 Applikationen körs nu och kan inspekteras med en webbläsare genom att gå till länken.
+
+## Optimering med Alpine Linux
+Våran applikation är ytterst minimal, men våran image för att köra den är hela 730MB. Så varje gång som vår applikation ska köras på en server där den inte startats förr så måste 730MB laddas ner, vilket tar både tid och utnyttjar plats i onödan. Ett första steg för att optimera detta är att byta våran bas-image `node:8` till `node:alpine` vilket ger oss följande resultat:
+
+`docker build -t elias/node-alpine .`
+`docker run -it -p 8080:8080 elias/node-alpine`
+`docker image ls elias/node-alpine`
+```bash
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+elias/node-alpine   latest              753dd73d5d07        3 minutes ago       72.1MB
+```
+
