@@ -41,10 +41,13 @@ Applikationen körs nu och kan inspekteras med en webbläsare genom att gå till
 ## Optimering med Alpine Linux
 Våran applikation är ytterst minimal, men våran image för att köra den är hela 730MB. Så varje gång som vår applikation ska köras på en server där den inte startats förr så måste 730MB laddas ner, vilket tar både tid och utnyttjar plats i onödan. Ett första steg för att optimera detta är att byta våran bas-image `node:8` till `node:alpine` vilket ger oss följande resultat:
 
+Bygg:
 `docker build -t elias/node-alpine .`
+Kör:
 `docker run -it -p 8080:8080 elias/node-alpine`
-`docker image ls elias/node-alpine`
+
 ```bash
+docker image ls elias/node-alpine
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 elias/node-alpine   latest              753dd73d5d07        3 minutes ago       72.1MB
 ```
