@@ -1,4 +1,10 @@
 # xperta-docker-demo
+### Vad?
+Docker är ett virtualiseringslager för att skapa tjänster, applikationer eller applikationskomponenter.
+### Varför?!
+För att enkelt kunna testa kod lokalt eller i isolerade miljöer och kunna återproducera dessa på olika hårdvara och plattformar.
+
+## Innehåll
 
 I denna demo ska vi demonstrera följande:
 1. Hur man startar en container från public registry,

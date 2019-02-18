@@ -1,17 +1,25 @@
 # Skapa egna containers
-
+#### Tid: 20 min
+Innan du börjar, se till att din konsol är i katalogen *02_create_custom_containers*.
+```bash
+$> cd ../02_create_custom_containers/
+$> pwd
+../xperta-docker-demo/02_create_custom_containers
+```
 Egna containers skapar man med en sk. Dockerfile som definierar beroenden och konfiguration. Nedan följer ett exempel:
 
+`Dockerfile`
 ```Dockerfile
 FROM ubuntu:latest
 ENTRYPOINT ["/bin/bash"]
 ```
-Filen ska inte ha någon filändelse.
+Filen ska inte ha någon filändelse. Skapa en `Dockerfile` enligt ovan.
 
 Vi bygger här en container med senaste releasen av Ubuntu som bas och när containern startas så vill vi att standardkommandot är att starta en BASH-konsol. I din konsol, ställ dig i den katalog som denna Dockerfile finns i. Kör sedan `docker build .`, punkten referar till den relativa sökvägen.
 
 Docker kommer nu bygga alla steg vi definerat:
-	Sending build context to Docker daemon   5.12kB
+	Sending build context to Docker daemon   5.12kB
+
 	Step 1/2 : FROM ubuntu:latest
 	 ---> 18c3ad7dcb72
 	Step 2/2 : ENTRYPOINT ["/bin/bash"]
@@ -31,7 +39,8 @@ Notera att våran image saknar både REPOSITORY och TAG, så vi måste referera 
 
 Bygg nu avbildningen igen, men denna gången med `docker build -t <namn>/ubuntu .`:
 
-Sending build context to Docker daemon  5.632kB
+Sending build context to Docker daemon  5.632kB
+
 	Step 1/2 : FROM ubuntu:latest
 	 ---> 18c3ad7dcb72
 	Step 2/2 : ENTRYPOINT ["/bin/bash"]
