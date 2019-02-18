@@ -139,3 +139,5 @@ Slutligen så startar vi tjänsterna med:
 ```bash
 docker-compose -f docker-compose.yml -f docker-compose.init.yml up -d
 ```
+
+Det är nu möjligt att gå till http://localhost:3000 och beskåda sidan.
