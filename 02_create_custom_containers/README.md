@@ -40,16 +40,17 @@ Notera att våran image saknar både REPOSITORY och TAG, så vi måste referera 
 
 Bygg nu avbildningen igen, men denna gången med `docker build -t <namn>/ubuntu .`:
 
+```bash
 Sending build context to Docker daemon  5.632kB
 
-	Step 1/2 : FROM ubuntu:latest
-	 ---> 18c3ad7dcb72
-	Step 2/2 : ENTRYPOINT ["/bin/bash"]
-	 ---> Using cache
-	 ---> b9015f609f80
-	Successfully built b9015f609f80
-	Successfully tagged elias/ubuntu:latest
-
+Step 1/2 : FROM ubuntu:latest
+	---> 18c3ad7dcb72
+Step 2/2 : ENTRYPOINT ["/bin/bash"]
+	---> Using cache
+	---> b9015f609f80
+Successfully built b9015f609f80
+Successfully tagged elias/ubuntu:latest
+```
 `docker image ls` ger nu följande:
 ```bash
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
