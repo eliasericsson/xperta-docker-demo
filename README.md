@@ -8,7 +8,7 @@ I denna demo ska vi demonstrera följande:
 3. Hur man skapar en avancerad egen container,
 	[Starta](./03_container_build_patterns/)
 4. Hur man skapar flera containers och kopplar samman dessa.
-5. Hur man förenklar sammanlänkningen med Docker Compose.
-6. Hur man orkestrerar containers med hjälp av Kubernetes.
-7. Hur man orkestrerar containers med Kubernetes i Azure Kubernetes Service (AKS).
-8. Hur man kan använda Azure DevOps för att automatisera deployments till AKS.
+	[Starta](./04_composing_containers/)
+5. Hur man orkestrerar containers med hjälp av Kubernetes.
+6. Hur man orkestrerar containers med Kubernetes i Azure Kubernetes Service (AKS).
+7. Hur man kan använda Azure DevOps för att automatisera deployments till AKS.
