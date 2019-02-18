@@ -15,18 +15,19 @@ ENTRYPOINT ["/bin/bash"]
 ```
 Filen ska inte ha någon filändelse. Skapa en `Dockerfile` enligt ovan.
 
-Vi bygger här en container med senaste releasen av Ubuntu som bas och när containern startas så vill vi att standardkommandot är att starta en BASH-konsol. I din konsol, ställ dig i den katalog som denna Dockerfile finns i. Kör sedan `docker build .`, punkten referar till den relativa sökvägen.
+Vi bygger här en container med senaste releasen av Ubuntu som bas och när containern startas så vill vi att standardkommandot är att starta en BASH-konsol. I din konsol, ställ dig i den katalog som denna Dockerfile finns i. Kör sedan `docker build .` (punkten referar till den relativa sökvägen).
 
 Docker kommer nu bygga alla steg vi definerat:
-	Sending build context to Docker daemon   5.12kB
+```bash
+Sending build context to Docker daemon   5.12kB
 
-	Step 1/2 : FROM ubuntu:latest
-	 ---> 18c3ad7dcb72
-	Step 2/2 : ENTRYPOINT ["/bin/bash"]
-	 ---> Using cache
-	 ---> b9015f609f80
-	Successfully built b9015f609f80
-
+Step 1/2 : FROM ubuntu:latest
+	---> 18c3ad7dcb72
+Step 2/2 : ENTRYPOINT ["/bin/bash"]
+	---> Using cache
+	---> b9015f609f80
+Successfully built b9015f609f80
+```
 Vi kan åter igen köra `docker image ls` för att se våra avbildningar:
 ```bash
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
