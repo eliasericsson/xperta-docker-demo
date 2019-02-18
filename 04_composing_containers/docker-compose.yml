@@ -1,11 +1,39 @@
-version: '2'
+version: '3.4'
+networks:
+  medical:
+    driver: bridge
 
 services:
-  web:
-    build: ./app/content-web/
+  mongo:
+    image: library/mongo
+    networks: 
+     - medical
     ports:
-     - "3000:3000"
+     - "27017:27017"
+    restart: always
+    volumes:
+     - ./data:/data/db
+  
   api:
     build: ./app/content-api/
+    image: content-api
+    networks:
+     - medical
     ports:
      - "3001:3001"
+    depends_on:
+     - mongo
+    environment:
+      MONGODB_CONNECTION: mongodb://mongo:27017/contentdb
+
+  web:
+    build: ./app/content-web/
+    image: content-web
+    networks: 
+     - medical
+    ports:
+     - "3000:3000"
+    depends_on:
+     - api
+    environment:
+      CONTENT_API_URL: http://api:3001
