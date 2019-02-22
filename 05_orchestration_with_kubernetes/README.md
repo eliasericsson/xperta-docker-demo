@@ -29,7 +29,7 @@ docker run hello-world
 
 ```bash
 git clone https://github.com/eliasericsson/xperta-docker-demo
-cd xperta-docker-demo/05_orchestration_with_minikube
+cd xperta-docker-demo/05_orchestration_with_kubernetes
 ```
 
 ### Kör applikationen
