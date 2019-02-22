@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  init:
+    build: ./app/content-init/
+    networks:
+     - medical
+    depends_on:
+     - mongo
+    environment:
+      MONGODB_CONNECTION: mongodb://mongo:27017/contentdb
