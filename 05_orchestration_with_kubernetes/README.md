@@ -51,4 +51,34 @@ Då servern i Azure inte tillåter anslutningar till porten så kommer du få et
 
 I loggarna kan vi nu se att användare ansluter till de olika sidorna.
 
+## Kubernetes
+Vi ska nu använda kubernetes istället för Docker Compose för att orkestrera våra containers. För detta behöver vi `kubectl` och `minikube`.
+### kubectl
+````bash
+# Install kubectl with snap
+sudo snap install kubectl --classic
 
+# Check installed version
+kubectl version
+```
+### minikube
+Installera minikube
+
+```bash
+# Download minikube
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+
+# Allow execution
+chmod +x minikube
+```
+
+Starta minikube
+````bash
+sudo minikube --vm-driver=none start
+```
+
+Om minikube inte startar kanske du behöver nedgradera docker aningen då senaste versionerna inte alltid är kompatibla.
+````bash
+sudo apt-cache policy docker-ce
+sudo apt-get install docker-ce=18.06.0~ce~3-0~ubuntu
+```
