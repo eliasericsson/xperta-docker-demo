@@ -16,6 +16,6 @@ I denna demo ska vi demonstrera följande:
 4. Hur man skapar flera containers och kopplar samman dessa.
 	[Starta](./04_composing_containers/)
 5. Hur man orkestrerar containers med hjälp av Kubernetes.
-	[Starta](.(05_orchestration_with_kubernetes/)
+	[Starta](./05_orchestration_with_kubernetes/)
 6. Hur man orkestrerar containers med Kubernetes i Azure Kubernetes Service (AKS).
 7. Hur man kan använda Azure DevOps för att automatisera deployments till AKS.
