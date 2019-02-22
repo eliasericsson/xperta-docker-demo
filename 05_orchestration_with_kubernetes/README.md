@@ -21,6 +21,13 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose
 # Add the current user to the docker users group
 sudo usermod -a -G docker $USER
 
+# Logout, and login again to be granted the new group membership
+logout
+ssh <USERNAME>@<SERVER-IP-ADDRESS>
+
+# Install Docker Compose
+sudo apt-get install docker-compose
+
 # Run the docker hello-world example
 docker run hello-world
 ```
@@ -53,16 +60,19 @@ I loggarna kan vi nu se att användare ansluter till de olika sidorna.
 
 ## Kubernetes
 Vi ska nu använda kubernetes istället för Docker Compose för att orkestrera våra containers. För detta behöver vi `kubectl` och `minikube`.
-### kubectl
-````bash
+### Installera kubectl
+```bash
 # Install kubectl with snap
-sudo snap install kubectl --classic
+sudo apt-get update && sudo apt-get install -y apt-transport-https
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubectl
 
 # Check installed version
-kubectl version
+sudo kubectl version
 ```
-### minikube
-Installera minikube
+### Installera minikube
 
 ```bash
 # Download minikube
@@ -70,15 +80,19 @@ curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/miniku
 
 # Allow execution
 chmod +x minikube
+
+# Move minikube to bin
+sudo mv minikube /usr/local/bin && rm minikube
 ```
 
 Starta minikube
-````bash
+```bash
 sudo minikube --vm-driver=none start
 ```
 
 Om minikube inte startar kanske du behöver nedgradera docker aningen då senaste versionerna inte alltid är kompatibla.
-````bash
+```bash
 sudo apt-cache policy docker-ce
 sudo apt-get install docker-ce=18.06.0~ce~3-0~ubuntu
 ```
+sudo chown -R builder /home/builder/.kube /home/builder/.minikube
