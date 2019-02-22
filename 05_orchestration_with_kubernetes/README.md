@@ -47,7 +47,7 @@ Använd en webbläsare och gå nu till den IP-address som din virtuella server i
 ```bash
 <SERVER-IP-ADDRESS>:3000
 ```
-Då servern i Azure inte tillåter anslutningar till porten så kommer du få ett felmeddelande. Lägg därför till en nätverksregel för den virtuella maskinen i Azure Dashnboard så att den tillåter anslutningar till port 3000. Pröva nu åter igen i webbläsaren och en webbsida bör nu visas.
+Då servern i Azure inte tillåter anslutningar till porten så kommer du få ett felmeddelande. Lägg därför till en nätverksregel för den virtuella maskinen i Azure Dashboard så att den tillåter anslutningar till port 3000. Pröva nu åter igen i webbläsaren och en webbsida bör nu visas.
 
 I loggarna kan vi nu se att användare ansluter till de olika sidorna.
 
