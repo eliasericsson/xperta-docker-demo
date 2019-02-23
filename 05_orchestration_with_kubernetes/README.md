@@ -91,21 +91,45 @@ minikube körs som ett mellanlager för att interagera med virtualiseringsteknik
 sudo apt-get install virtualbox
 ```
 
-### Installera kompose
-För att översätta våran Docker-Compose-fil till ett format som Kubernetes förstår så behöver vi installera kompose:
-```bash
-# Download kompose
-curl -L https://github.com/kubernetes/kompose/releases/download/v1.17.0/kompose-linux-amd64 -o kompose
-
-# Allow execution
-chmod +x kompose
-
-# Move to bin
-sudo mv ./kompose /usr/local/bin/kompose
-```
-
 ### Starta ett Kuberneteskluster
 Starta minikube
 ```bash
 sudo minikube start
+```
+
+## Start a basic "Hello, World!" type deployment
+Run the Hello World example from Googel Container Registry
+```bash
+kubectl run hello-world --replicas=5 --labels=run=load-balancer-example --image=gcr.io/google-samples/node-hello:1.0  --port=8080
+```
+
+List the replica sets
+```bash
+kubectl get replicasets
+```
+
+List the deployments named hello-world
+```bash
+kubectl get deployments hello-world
+```
+
+Create a service that exposes the deployment
+```bash
+kubectl expose deployment hello-world --type=LoadBalancer --name=my-service
+```
+
+Display the service information
+```bash
+kubectl get services my-service
+```
+The external IP is initially shown as *pending*.
+
+Display more details about the service
+```bash
+kubectl describe services my-service
+```
+
+The individual pods have internal addresses, as shown here:
+```bash
+kubectl get pods --output=wide
 ```
