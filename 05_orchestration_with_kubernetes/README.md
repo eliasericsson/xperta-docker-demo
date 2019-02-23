@@ -128,22 +128,3 @@ Try to access the service with curl
 curl http://192.168.99.100:31354; echo
 ```
 The response should be `Hello Kubernetes!`
-
-
-# Rest
-
-Display the service information
-```bash
-kubectl get services my-service
-```
-The external IP is initially shown as *pending*.
-
-Display more details about the service
-```bash
-kubectl describe services my-service
-```
-
-The individual pods have internal addresses, as shown here:
-```bash
-kubectl get pods --output=wide
-```
