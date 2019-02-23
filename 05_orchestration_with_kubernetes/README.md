@@ -98,14 +98,9 @@ sudo minikube start
 ```
 
 ## Start a basic "Hello, World!" type deployment
-Run the Hello World example from Googel Container Registry
+Run the Hello World example from Google Container Registry
 ```bash
 kubectl run hello-world --replicas=5 --labels=run=load-balancer-example --image=gcr.io/google-samples/node-hello:1.0  --port=8080
-```
-
-List the replica sets
-```bash
-kubectl get replicasets
 ```
 
 List the deployments named hello-world
@@ -113,10 +108,29 @@ List the deployments named hello-world
 kubectl get deployments hello-world
 ```
 
+List the replica sets
+```bash
+kubectl get replicasets
+```
+
 Create a service that exposes the deployment
 ```bash
 kubectl expose deployment hello-world --type=LoadBalancer --name=my-service
 ```
+
+Use minikube to find the IP-address of the cluster
+```bash
+sudo minikube service my-service --url
+```
+
+Try to access the service with curl
+```bash
+curl http://192.168.99.100:31354; echo
+```
+The response should be `Hello Kubernetes!`
+
+
+# Rest
 
 Display the service information
 ```bash
