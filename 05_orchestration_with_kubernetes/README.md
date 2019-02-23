@@ -97,34 +97,132 @@ Starta minikube
 sudo minikube start
 ```
 
-## Start a basic "Hello, World!" type deployment
-Run the Hello World example from Google Container Registry
+## Starta en simpelt "Hello, World!" exempel
+Kör ett Hello World exempel från Google Container Registry
 ```bash
 kubectl run hello-world --replicas=5 --labels=run=load-balancer-example --image=gcr.io/google-samples/node-hello:1.0  --port=8080
 ```
 
-List the deployments named hello-world
+Visa alla deployments med namnet *hello-world*
 ```bash
 kubectl get deployments hello-world
 ```
 
-List the replica sets
+Visa de replica sets som finns tillgängliga
 ```bash
 kubectl get replicasets
 ```
 
-Create a service that exposes the deployment
+Skapa en tjänst som exponerar din deployment
 ```bash
 kubectl expose deployment hello-world --type=LoadBalancer --name=my-service
 ```
 
-Use minikube to find the IP-address of the cluster
+Använd minikube för att hitta klustrets IP-address
 ```bash
 sudo minikube service my-service --url
 ```
 
-Try to access the service with curl
+Försök nå tjänsten med curl
 ```bash
 curl http://192.168.99.100:31354; echo
 ```
-The response should be `Hello Kubernetes!`
+Konsolen bör svara med `Hello Kubernetes!`
+
+# Starta en egen deployment
+
+## MongoDB
+Skapa ett deployment
+```bash
+kubectl create -f k8s/mongo-deployment.yaml
+```
+
+Skapa en tjänst
+```bash
+kubectl create -f k8s/mongo-service.yaml
+```
+## API
+Skapa ett deployment
+```bash
+kubectl create -f k8s/api-deployment.yaml
+```
+
+Testar man detta deployment med `kubectl get pods` så ser man att denna pod inte kan starta eftersom den inte kan ladda ner containern. Kubernetes bygger till skillnad får Docker-Compose inte containers utan laddar endast hem dessa från ett repository.
+```bash
+NAME                     READY   STATUS             RESTARTS   AGE
+api-89f7cccfd-qjn4h      0/1     ImagePullBackOff   0          13m
+mongo-8464d9bbf9-xjpk5   1/1     Running            0          45m
+```
+
+### Workaround - Skapa ett lokalt repository
+Vi kan med hjälp av docker köra ett repository lokalt på våran server
+```bash
+# Run a detached container on port 5000
+docker run -d -p 5000:5000 --restart=always --name registry registry:2
+```
+Lista avbildningar med `docker image ls` och tagga den image som byggdes av Docker-Compose som localhost:5000/*avbildningsnamn* och push'a denna till registryt
+```bash
+docker tag content-api localhost:5000/content-api
+docker push localhost:5000/content-api
+```
+
+Försöker vi skapa ett nytt deployment kommer även det att fallera, då våran deployment-fil (k8s/api-deployment.yml) hänvisar till `image: content-api`. Vi ändrar detta till `image: localhost:5000/content-api`.
+```yaml
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose -f docker-compose.yml -f docker-compose.init.yml convert
+      -o k8s/
+    kompose.version: 1.17.0 (a74acad)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: api
+  name: api
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: api
+    spec:
+      containers:
+      - env:
+        - name: MONGODB_CONNECTION
+          value: mongodb://mongo:27017/contentdb
+        image: content-api
+        name: api
+        ports:
+        - containerPort: 3001
+        resources: {}
+      restartPolicy: Always
+status: {}
+```
+
+
+Skapa en tjänst
+```bash
+kubectl create -f k8s/api-service.yaml
+```
+## Web
+Skapa ett deployment
+```bash
+kubectl create -f k8s/web-deployment.yaml
+```
+
+Skapa en tjänst
+```bash
+kubectl create -f k8s/web-service.yaml
+```
+
+
+
+
+
+
+```bash
+kubectl create -f k8s/init-deployment.yaml
+```
+
