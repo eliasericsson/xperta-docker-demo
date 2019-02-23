@@ -1,6 +1,6 @@
 # Orkestrera container med kubernetes
 ## Installera server
-I föregående delar har vi prövat att köra vår applikation på vår egna dator. För att börja denna del så ska vi demonstrera att applikationen fungerar även när den körs på server i Azure. Installera en Ubuntu 18.04-server i Azure och anslut med SSH. Kör sedan dessa kommandon i ordning:
+I föregående delar har vi prövat att köra vår applikation på vår egna dator. För att börja denna del så ska vi demonstrera att applikationen fungerar även när den körs på server i Azure. Installera en Ubuntu 18.04-server i Azure (underliggande maskin måste stödja sk. nested virtualization). Anslut med SSH (se till att port 22 är öppnad) och Kör sedan dessa kommandon i ordning:
 
 ```bash
 # Install updates
@@ -85,14 +85,27 @@ chmod +x minikube
 sudo mv minikube /usr/local/bin && rm minikube
 ```
 
-Starta minikube
+### Installera virtualbox
+minikube körs som ett mellanlager för att interagera med virtualiseringstekniken under, i detta fallet VirtualBox. Det är dock även supporterat att köra VMware eller Hyper-V istället, om operativet är kompatibelt. Default är dock VirtualBox, så vi behöver installera detta.
 ```bash
-sudo minikube --vm-driver=none start
+sudo apt-get install virtualbox
 ```
 
-Om minikube inte startar kanske du behöver nedgradera docker aningen då senaste versionerna inte alltid är kompatibla.
+### Installera kompose
+För att översätta våran Docker-Compose-fil till ett format som Kubernetes förstår så behöver vi installera kompose:
 ```bash
-sudo apt-cache policy docker-ce
-sudo apt-get install docker-ce=18.06.0~ce~3-0~ubuntu
+# Download kompose
+curl -L https://github.com/kubernetes/kompose/releases/download/v1.17.0/kompose-linux-amd64 -o kompose
+
+# Allow execution
+chmod +x kompose
+
+# Move to bin
+sudo mv ./kompose /usr/local/bin/kompose
 ```
-sudo chown -R builder /home/builder/.kube /home/builder/.minikube
+
+### Starta ett Kuberneteskluster
+Starta minikube
+```bash
+sudo minikube start
+```
