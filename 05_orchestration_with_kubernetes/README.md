@@ -154,75 +154,39 @@ api-89f7cccfd-qjn4h      0/1     ImagePullBackOff   0          13m
 mongo-8464d9bbf9-xjpk5   1/1     Running            0          45m
 ```
 
-### Workaround - Skapa ett lokalt repository
-Vi kan med hjälp av docker köra ett repository lokalt på våran server
+Städa upp lite med delete
 ```bash
-# Run a detached container on port 5000
-docker run -d -p 5000:5000 --restart=always --name registry registry:2
+kubectl delete deployment api
 ```
-Lista avbildningar med `docker image ls` och tagga den image som byggdes av Docker-Compose som localhost:5000/*avbildningsnamn* och push'a denna till registryt
+
+### Sätt upp lokalt registry
+```bash
+kubectl create -f k8s/kube-registry.yaml
+```
+Vi kan ansluta till minikube `sudo minikube ssh` och anropa localhost och bör då få svar från vårat registry `curl localhost:5000`.
+
+Peka Docker-klienten mot Minikubes Docker Daemon
+```bash
+eval $(minikube docker-env)
+```
+
+Då vi redan har en byggd avbildning så behöver den inte byggas, utan vi taggar den befintliga avbildningen *content-api* med vårat repository *localhost:5000*. Push'a tillsist denna avbildning till repositoriet.
 ```bash
 docker tag content-api localhost:5000/content-api
 docker push localhost:5000/content-api
 ```
 
-Försöker vi skapa ett nytt deployment kommer även det att fallera, då våran deployment-fil (k8s/api-deployment.yml) hänvisar till `image: content-api`. Vi ändrar detta till `image: localhost:5000/content-api`.
-```yaml
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  annotations:
-    kompose.cmd: kompose -f docker-compose.yml -f docker-compose.init.yml convert
-      -o k8s/
-    kompose.version: 1.17.0 (a74acad)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: api
-  name: api
-spec:
-  replicas: 1
-  strategy: {}
-  template:
-    metadata:
-      creationTimestamp: null
-      labels:
-        io.kompose.service: api
-    spec:
-      containers:
-      - env:
-        - name: MONGODB_CONNECTION
-          value: mongodb://mongo:27017/contentdb
-        image: content-api
-        name: api
-        ports:
-        - containerPort: 3001
-        resources: {}
-      restartPolicy: Always
-status: {}
-```
-
-
-Skapa en tjänst
+# Starta deployment
 ```bash
-kubectl create -f k8s/api-service.yaml
+kubectl create -f k8s/api-deployment.yaml
 ```
-## Web
-Skapa ett deployment
+
+Nu startas en pods med våran container i: 
 ```bash
-kubectl create -f k8s/web-deployment.yaml
+kubectl get pods
 ```
 
-Skapa en tjänst
+Läs loggarna, API ska nu ha anslutit till MongoDB
 ```bash
-kubectl create -f k8s/web-service.yaml
+kubectl logs $(kubectl get pods | awk '/api/ {print $1;exit}')
 ```
-
-
-
-
-
-
-```bash
-kubectl create -f k8s/init-deployment.yaml
-```
-
