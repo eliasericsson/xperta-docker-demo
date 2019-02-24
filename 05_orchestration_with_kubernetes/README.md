@@ -240,3 +240,11 @@ Kontrollera ifall websidan svarar
 ```bash
 curl http://<EXTERNAL-IP>:<PORT>
 ```
+
+# Slutsats
+Det är fullt möjligt att köra Kubernetes på en egen server, oavsett om det är placerad i ett datacenter eller i molnet. Vi har dock ännu ansvaret att se till att de maskiner som vårat kluster körs ovanpå är skyddat mot intrång och driftstörningar. Att använda en hanterad tjänst från abstaherar undan denna hantering och låter dig köra dina deployments utan tillgång (eller ansvar) för underliggande hård- och mjukvara.
+
+Här följer några exempel på hanterade tjänster för Kubernetes:
+* Azure Kubernetes Service (AKS) från Microsoft Azure
+* Elastic Kubernetes Service (EKS) från Amazon Web Services
+* Google Kubernetes Engine (GKE) från Google Cloud Platform
