@@ -165,6 +165,7 @@ kubectl create -f k8s/kube-registry.yaml
 ```
 Vi kan ansluta till minikube `sudo minikube ssh` och anropa localhost och bör då få svar från vårat registry `curl localhost:5000`.
 
+### Docker Image
 Peka Docker-klienten mot Minikubes Docker Daemon
 ```bash
 eval $(minikube docker-env)
@@ -176,7 +177,13 @@ docker tag content-api localhost:5000/content-api
 docker push localhost:5000/content-api
 ```
 
-# Starta deployment
+Anslut till minikube och dra ned avbildningen
+```bash
+sudo minikube ssh
+docker pull localhost:5000/content-api
+```
+
+### Starta deployment
 ```bash
 kubectl create -f k8s/api-deployment.yaml
 ```
@@ -189,4 +196,22 @@ kubectl get pods
 Läs loggarna, API ska nu ha anslutit till MongoDB
 ```bash
 kubectl logs $(kubectl get pods | awk '/api/ {print $1;exit}')
+```
+
+## Web
+### Docker Image
+```bash
+docker tag content-api localhost:5000/content-web
+docker push localhost:5000/content-web
+```
+
+Anslut till minikube och dra ned avbildningen
+```bash
+sudo minikube ssh
+docker pull localhost:5000/content-web
+```
+
+### Starta deployment
+```bash
+kubectl create -f k8s/web-deployment.yaml
 ```
