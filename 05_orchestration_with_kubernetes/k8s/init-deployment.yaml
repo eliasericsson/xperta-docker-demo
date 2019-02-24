@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose -f docker-compose.yml -f docker-compose.init.yml convert
+      -o k8s/
+    kompose.version: 1.17.0 (a74acad)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: init
+  name: init
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: init
+    spec:
+      containers:
+      - env:
+        - name: MONGODB_CONNECTION
+          value: mongodb://mongo:27017/contentdb
+        image: init
+        name: init
+        resources: {}
+      restartPolicy: Always
+status: {}
