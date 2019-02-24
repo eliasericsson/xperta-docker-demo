@@ -1,0 +1,48 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "resourceName": {
+            "value": "medi-kube"
+        },
+        "location": {
+            "value": "westeurope"
+        },
+        "dnsPrefix": {
+            "value": "medikube"
+        },
+        "agentCount": {
+            "value": 1
+        },
+        "agentVMSize": {
+            "value": "Standard_DS2_v2"
+        },
+        "servicePrincipalClientId": {
+            "value": null
+        },
+        "servicePrincipalClientSecret": {
+            "value": null
+        },
+        "kubernetesVersion": {
+            "value": "1.10.9"
+        },
+        "networkPlugin": {
+            "value": "kubenet"
+        },
+        "enableRBAC": {
+            "value": false
+        },
+        "enableHttpApplicationRouting": {
+            "value": false
+        },
+        "workspaceName": {
+            "value": "DefaultWorkspace-e8baa2ee-f0d0-47ab-834d-b84ec3a369e4-WEU"
+        },
+        "omsWorkspaceId": {
+            "value": "/subscriptions/e8baa2ee-f0d0-47ab-834d-b84ec3a369e4/resourcegroups/defaultresourcegroup-weu/providers/microsoft.operationalinsights/workspaces/defaultworkspace-e8baa2ee-f0d0-47ab-834d-b84ec3a369e4-weu"
+        },
+        "workspaceRegion": {
+            "value": "westeurope"
+        }
+    }
+}
