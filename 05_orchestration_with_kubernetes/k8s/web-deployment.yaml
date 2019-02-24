@@ -21,7 +21,8 @@ spec:
       - env:
         - name: CONTENT_API_URL
           value: http://api:3001
-        image: content-web
+        image: localhost:5000/content-web
+        imagePullPolicy: Never
         name: web
         ports:
         - containerPort: 3000

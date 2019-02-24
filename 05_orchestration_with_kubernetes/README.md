@@ -215,3 +215,28 @@ docker pull localhost:5000/content-web
 ```bash
 kubectl create -f k8s/web-deployment.yaml
 ```
+
+Vi kan nu överblicka våra deployments med `kubectl get pods`:
+```bash
+NAME                     READY   STATUS    RESTARTS   AGE
+api-79d7bfd784-dpwxh     1/1     Running   0          34s
+mongo-8464d9bbf9-v5jkn   1/1     Running   0          42s
+web-7585587d5-w7tc5      1/1     Running   0          25s
+```
+
+## Exponera tjänsten
+
+Slutligen behöver vi exponera våran tjänst *web* för att den ska kunna kommunicera utanför klustret, vi gör detta med en lastbalancerare.
+```bash
+kubectl expose service web --type=LoadBalancer --port=3000 --target-port=3000 --name=my-service
+```
+
+I normalfallet, när inte använder minikube, så kan man använda `kubectl get services` för att identifiera den externa IP-addressen som lastbalanceraren tilldelas. Men med minikube så måste vi köra detta kommando istället:
+```bash
+sudo minikube service my-service --url
+```
+
+Kontrollera ifall websidan svarar
+```bash
+curl http://<EXTERNAL-IP>:<PORT>
+```
